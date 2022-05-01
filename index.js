@@ -26,6 +26,7 @@ let guild = null; // Fetched after ready
 // When the client is ready, run this code (only once)
 client.once("ready", () => {
     guild = client.guilds.cache.get("933180897233100840");
+    console.log("Ready");
 });
 
 client.on("interactionCreate", async (interaction) => {
@@ -62,7 +63,9 @@ client.on("messageReactionAdd", async (reaction, user) => {
         switch (reaction._emoji.name) {
             case "twitch":
                 const member = await guild.members.fetch(user.id);
-                member.roles.add(ids.roles.notifTwitch);
+                member.roles.add(ids.roles.notifTwitch).then(res => {
+                    console.log("Added notifTwitch to "+res.user.username);
+                });
                 break;
         }
     }
@@ -88,7 +91,9 @@ client.on("messageReactionRemove", async (reaction, user) => {
         switch (reaction._emoji.name) {
             case "twitch":
                 const member = await guild.members.fetch(user.id);
-                member.roles.remove(ids.roles.notifTwitch);
+                member.roles.remove(ids.roles.notifTwitch).then(res => {
+                    console.log("Removed notifTwitch from "+res.user.username);
+                });
                 break;
         }
     }
